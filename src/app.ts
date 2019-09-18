@@ -1,3 +1,5 @@
+// Isabella Silva
+// 1750h, 18-9-2019
 // import the little Scene Graph library
 import * as sg from './SG.js';
 
@@ -281,7 +283,7 @@ var zRot = 0;
 var yBounce = 0.7;
 var scaleSize = 1;
 var sca = .01;
-var ghostSpeed = 2.5;
+var ghostSpeed = 2;
 var zinc = 1;
 
 // LERP(A, a, t, B, b)
@@ -321,21 +323,23 @@ var s5renderFunc = function(t: number) {
 		cam.rotation = sg.Matrix.makeRotationFromEuler(new sg.Vector(-13, camYRotation, 0));
 	} 
 	
-	else if (dt < 11) {
-		scene.world.add(ghost2);
-		armie2.rotation = sg.Matrix.makeRotationFromEuler(new sg.Vector(-1, 0, 0))
-		ghost2.position = new sg.Vector(0, 0, ghost2.position.z + ghostSpeed/2)
-	} 
+	// else if (dt < 11) {
+	// 	scene.world.add(ghost2);
+	// 	armie2.rotation = sg.Matrix.makeRotationFromEuler(new sg.Vector(-1, 0, 0))
+	// 	ghost2.position = new sg.Vector(0, 0, ghost2.position.z + ghostSpeed/2)
+	// } 
 
 	// ghostie bouncing forward
 	else if (dt < 14) {
+		scene.world.add(ghost2);
+		armie2.rotation = sg.Matrix.makeRotationFromEuler(new sg.Vector(-1, 0, 0))
 		if (ghost2.position.y > 8 || ghost2.position.y < -3) {
 			yBounce *= -1;
 		}
 		ghost2.position.y += yBounce;
 		ghost2.position.z += ghostSpeed
 		// text.position = new sg.Vector(-50, 0, 400);
-		text.position = new sg.Vector(ghost2.position.x - 50, ghost2.position.y, ghost2.position.z + .5);
+		text.position = new sg.Vector(ghost2.position.x - 50, ghost2.position.y, ghost2.position.z);
 		
 	} 
 
