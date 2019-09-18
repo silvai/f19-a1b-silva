@@ -23,7 +23,6 @@ cam2.position = new sg.Vector(0,200,1000);
 var cam2YRotation = 0;
 cam2.rotation = sg.Matrix.makeRotationFromEuler(new sg.Vector(-10, cam2YRotation, 0));
 
-
 scene2.world.add(cam2);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -283,10 +282,15 @@ var yBounce = 0.7;
 var scaleSize = 1;
 var sca = .01;
 var ghostSpeed = 2.5;
+var zinc = 1;
+
+// LERP(A, a, t, B, b)
+// A + AB(t-a/b-a)
 
 var s5renderFunc = function(t: number) {
 	// time is returned in millisecons.  Lets convert to seconds, so it's more intuitive.
 	let dt = (t - startTime) / 1000.0
+	// let dt = (endTime - curentTime) / (endTime - startTime)
 
 	//original scene zoom and setup
 	if (dt < 3) {
@@ -320,7 +324,7 @@ var s5renderFunc = function(t: number) {
 	else if (dt < 11) {
 		scene.world.add(ghost2);
 		armie2.rotation = sg.Matrix.makeRotationFromEuler(new sg.Vector(-1, 0, 0))
-		ghost2.position = new sg.Vector(0, 0, ghost2.position.z + ghostSpeed)
+		ghost2.position = new sg.Vector(0, 0, ghost2.position.z + ghostSpeed/2)
 	} 
 
 	// ghostie bouncing forward
@@ -330,17 +334,16 @@ var s5renderFunc = function(t: number) {
 		}
 		ghost2.position.y += yBounce;
 		ghost2.position.z += ghostSpeed
-
 		// text.position = new sg.Vector(-50, 0, 400);
-		text.position = new sg.Vector(ghost2.position.x -50, ghost2.position.y, ghost2.position.z + 2);
+		text.position = new sg.Vector(ghost2.position.x - 50, ghost2.position.y, ghost2.position.z + .5);
 		
-
 	} 
+
 	// ghostie handing flower and tipping hat like a proper gentle-ghostie
-	else if (dt < 16) {
+	else if (dt < 15) {
 		armie2.position = new sg.Vector (armie2.position.x, armie2.position.y, armie2.position.z + .5)
-		if (zRot > 70) {
-			zRot = 70
+		if (zRot > 50) {
+			zRot = 50
 		}
 		zRot += 1
 		leftarmie2.position = new sg.Vector(leftarmie2.position.x - .1, leftarmie2.position.y - .1, leftarmie2.position.z + .1);
@@ -354,7 +357,7 @@ var s5renderFunc = function(t: number) {
 
 	}
 	//nodding
-	else if (dt < 19.2) {		
+	else if (dt < 20) {		
 		cam.rotation = sg.Matrix.makeRotationFromEuler(new sg.Vector(camXRotation, camYRotation, 0));
 		camXRotation -= camXInc;
 		if (camXRotation > -8 || camXRotation < -20) {
@@ -362,21 +365,29 @@ var s5renderFunc = function(t: number) {
 		}
 	} 
 	// returning arm to original position
-	else if (dt < 21) {
-		armie2.position = new sg.Vector(15, armie2.position.y, armie2.position.z - .25)
-		if (zRot < -20) {
-			zRot = -20
+	// else if (dt < 21) {
+	// 	armie2.position = new sg.Vector(15, armie2.position.y, armie2.position.z - .25)
+	// 	if (zRot < -20) {
+	// 		zRot = -20
+	// 	}
+	// 	zRot -= 1
+	// 	flower.position = new sg.Vector(leftarmie2.position.x - .1, leftarmie2.position.y - .1, leftarmie2.position.z + .1);
+	// 	leftarmie2.position = new sg.Vector(leftarmie2.position.x + .1, leftarmie2.position.y + .1, leftarmie2.position.z - .01);
+	// 	leftarmie2.rotation = sg.Matrix.makeRotationFromEuler(new sg.Vector(0, 0, zRot));
+	// }
+
+	else {
+		if (zRot > 51 || zRot < -1) {
+			zinc *= -1
 		}
-		zRot -= 1
-		flower.position = new sg.Vector(leftarmie2.position.x - .1, leftarmie2.position.y - .1, leftarmie2.position.z + .1);
-		leftarmie2.position = new sg.Vector(leftarmie2.position.x + .1, leftarmie2.position.y + .1, leftarmie2.position.z - .01);
+		zRot += zinc
 		leftarmie2.rotation = sg.Matrix.makeRotationFromEuler(new sg.Vector(0, 0, zRot));
 	}
 	// let rotationTime = (dt % 2) / 2
 	// let yRotation = 360 * rotationTime
 	// ghost2.rotation = sg.Matrix.makeRotationFromEuler(new sg.Vector(0,yRotation,0)); 
 	scene.render();
-	scene2.render()
 	requestAnimationFrame(s5renderFunc);
 };
 s5renderFunc(startTime);
+scene2.render();
