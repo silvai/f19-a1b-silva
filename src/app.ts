@@ -307,14 +307,14 @@ var s5renderFunc = function(t: number) {
 	}
 
 	// horizontal camera sweep
-	else if (dt < 8){
+	else if (dt < 7){
 		// only want to do this the first time into this part
 		cam.position = new sg.Vector(0, 150, 1100); 
 		camYRotation += camYInc;
 		if (camYRotation > 12 || camYRotation < -12) {
 			camYInc *= -1;
 		}
-		cam.rotation = sg.Matrix.makeRotationFromEuler(new sg.Vector(-13,camYRotation,0));
+		cam.rotation = sg.Matrix.makeRotationFromEuler(new sg.Vector(-13, camYRotation, 0));
 	} 
 	
 	else if (dt < 11) {
@@ -331,8 +331,8 @@ var s5renderFunc = function(t: number) {
 		ghost2.position.y += yBounce;
 		ghost2.position.z += ghostSpeed
 
-		text.position = new sg.Vector(-50, 0, 400);
-		// text.position = new sg.Vector(200, -400, 12)
+		// text.position = new sg.Vector(-50, 0, 400);
+		text.position = new sg.Vector(ghost2.position.x -50, ghost2.position.y, ghost2.position.z + 2);
 		
 
 	} 
@@ -354,7 +354,7 @@ var s5renderFunc = function(t: number) {
 
 	}
 	//nodding
-	else if (dt < 19) {		
+	else if (dt < 19.2) {		
 		cam.rotation = sg.Matrix.makeRotationFromEuler(new sg.Vector(camXRotation, camYRotation, 0));
 		camXRotation -= camXInc;
 		if (camXRotation > -8 || camXRotation < -20) {
