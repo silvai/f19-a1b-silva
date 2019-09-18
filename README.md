@@ -6,7 +6,7 @@ This is an assignment repo for the second two parts of A1.  Please see the origi
 
 ## Author
 
-**Name:  PLEASE PUT YOUR NAME HERE**
+**Name:  Isabella Silva**
 
 ## Additional details
 
